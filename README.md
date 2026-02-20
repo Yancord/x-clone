@@ -1,36 +1,228 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# X Clone – Full Stack Microblogging Application
 
-## Getting Started
+A simple full-stack microblogging application inspired by X (Twitter).  
+Users can register, log in, create posts, and view a global feed.
 
-First, run the development server:
+This project focuses on **clean architecture, full-stack implementation, and code quality**, rather than heavy UI styling.
 
-```bash
+---
+
+## Tech Stack
+
+### Frontend
+- Next.js (App Router)
+- React (Server & Client Components)
+- TypeScript
+- Tailwind CSS
+
+### Backend
+- Next.js Route Handlers (REST API)
+- Prisma ORM
+- PostgreSQL (Neon)
+
+### Authentication
+- iron-session (cookie-based authentication)
+- bcrypt (password hashing)
+
+### Deployment
+- Vercel
+- Neon PostgreSQL
+
+---
+
+# Features
+
+- User registration
+- User login & logout
+- Session-based authentication
+- Protected routes via middleware
+- Global feed (all posts)
+- User profile page (own posts)
+- Post creation (max 280 characters)
+- Server-side rendering
+- Secure password hashing
+
+---
+
+# Architecture Overview
+
+## Application Structure
+app/
+  layout.tsx        → Global layout
+  page.tsx          → Homepage (global feed)
+  login/page.tsx
+  register/page.tsx
+  users/[username]/page.tsx
+  api/
+    auth/
+      login/route.ts
+      register/route.ts
+      logout/route.ts
+    users/[username]/posts/route.ts
+middleware.ts
+
+
+## Design Decisions
+
+### 1. Next.js App Router
+Chosen for:
+- Built-in routing
+- Server Components support
+- Clean separation of client and server logic
+- Seamless Vercel deployment
+
+### 2. REST API via Route Handlers
+Instead of a separate Express server:
+- Cleaner monolithic structure
+- Easier deployment
+- Shared types between frontend and backend
+
+### 3. Prisma + PostgreSQL (Neon)
+Prisma provides:
+- Type-safe database access
+- Migrations
+- Clean data modeling
+
+Neon was chosen for:
+- Serverless PostgreSQL
+- Free tier
+- Easy Vercel integration
+
+### 4. iron-session Authentication
+Selected instead of JWT for:
+- Simplicity
+- Secure HTTP-only cookies
+- Better integration with Server Components
+
+Sessions are:
+- Encrypted
+- Stored in cookies
+- Validated server-side
+- Destroyed on logout
+
+### 5. Middleware Protection
+Middleware ensures:
+- Unauthenticated users cannot access protected routes
+- Logged-in users cannot access login/register pages
+- Clean access control
+
+---
+
+# Assumptions & Scope
+
+- Users can only create posts for themselves.
+- Users cannot access other users' profile pages.
+- The global feed displays all posts.
+- UI is intentionally minimal (focus on architecture).
+- No pagination (simplified scope).
+- No follow/like system.
+- No image uploads.
+
+The primary focus was functionality and structure.
+
+---
+
+# Local Development Setup
+
+## 1. Clone Repository
+
+git clone https://github.com/your-username/x-clone.git
+
+cd x-clone
+
+
+## 2. Install Dependencies
+
+npm install
+
+## 3. Environment Variables
+
+Create a `.env` file in the root:
+
+DATABASE_URL=your_neon_database_url
+DIRECT_URL=your_neon_direct_url
+SESSION_PASSWORD=your_long_random_secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+`SESSION_PASSWORD` must be at least 32 characters.
+
+## 4. Generate Prisma Client
+
+npx prisma generate
+
+## 5. Run Migrations
+
+npx prisma migrate dev
+
+
+## 6. Seed Database (Optional)
+
+npm run db:seed
+
+## 7. Start Development Server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+# Production Build
 
-To learn more about Next.js, take a look at the following resources:
+To test production locally:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm run build
+npm start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Deployment (Vercel)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push project to GitHub.
+2. Import repository in Vercel.
+3. Add environment variables:
+   - DATABASE_URL
+   - DIRECT_URL
+   - SESSION_PASSWORD
+4. Deploy.
+
+---
+
+# Security Considerations
+
+- Passwords are hashed with bcrypt.
+- Sessions use HTTP-only cookies.
+- Middleware protects restricted routes.
+- Users cannot post as other users.
+- Server-side validation for all inputs.
+
+---
+
+# Future Improvements
+
+- Pagination
+- Edit/Delete posts
+- Avatar upload
+- Dark mode
+- Testing (unit + E2E)
+- Rate limiting
+- CI/CD pipeline
+
+---
+
+# Summary
+
+This project demonstrates:
+
+- Full-stack Next.js development
+- Server & Client Components
+- Secure session authentication
+- Prisma + PostgreSQL integration
+- Route protection with middleware
+- Clean and maintainable architecture
+
+The focus was on clarity, architecture, and functionality, as required.
+
+
