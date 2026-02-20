@@ -42,24 +42,6 @@ This project focuses on **clean architecture, full-stack implementation, and cod
 - Server-side rendering
 - Secure password hashing
 
----
-
-# Architecture Overview
-
-## Application Structure
-app/
-  layout.tsx        → Global layout
-  page.tsx          → Homepage (global feed)
-  login/page.tsx
-  register/page.tsx
-  users/[username]/page.tsx
-  api/
-    auth/
-      login/route.ts
-      register/route.ts
-      logout/route.ts
-    users/[username]/posts/route.ts
-middleware.ts
 
 
 ## Design Decisions
@@ -140,8 +122,11 @@ npm install
 Create a `.env` file in the root:
 
 DATABASE_URL=your_neon_database_url
+
 DIRECT_URL=your_neon_direct_url
+
 SESSION_PASSWORD=your_long_random_secret
+
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 `SESSION_PASSWORD` must be at least 32 characters.
