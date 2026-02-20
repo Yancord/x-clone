@@ -126,7 +126,7 @@ The primary focus was functionality and structure.
 
 ## 1. Clone Repository
 
-git clone https://github.com/your-username/x-clone.git
+git clone https://github.com/Yancord/x-clone.git
 
 cd x-clone
 
